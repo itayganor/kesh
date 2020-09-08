@@ -1,7 +1,9 @@
 {
   "name": "kesh",
   "version": "1.0.0",
-  "dependencies": {
-    
-  }
+  "scripts": {
+    "postinstall": "cd client && npm install && cd ../server && npm install",
+    "start": "cd server && npm start"
+  },
+  "dependencies": {}
 }
