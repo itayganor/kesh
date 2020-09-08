@@ -1,0 +1,45 @@
+html {
+    height: 100%;
+}
+
+body {
+    margin: 0;
+    font-family: Segoe UI, Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+    padding: 1em;
+    box-sizing: border-box;
+    background-color: #cc35340f;
+}
+
+input, textarea, button {
+    font: inherit;
+}
+
+.tagify__input {
+    min-height: 1em;
+}
+
+.tagify {
+    background: white;
+    margin: 1em;
+    border-radius: .5rem;
+    --tags-focus-border-color: #cc3534;
+}
+
+#submit-packages {
+    background: #cc3534;
+    color: white;
+    padding: 1em 2em;
+    border-radius: .5rem;
+    border: 0;
+    margin: 1em;
+    font-weight: 700;
+}
+
+.npm-logo {
+    width: 100%;
+    max-width: 4em;
+    margin: 1em auto;
+}
