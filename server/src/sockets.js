@@ -5,5 +5,8 @@ module.exports = (io) => {
         emitter.on('log', data => {
             socket.emit('log', data);
         })
+        emitter.on('log-error', data => {
+            socket.emit('log-error', data);
+        })
     })
 };

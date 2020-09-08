@@ -28,8 +28,8 @@ async function packPackages(packages) {
 
     Logger.log('downloading module...');
     const {stdout, stderr} = shell.exec(`cross-env npm_config_cache=./npm_cache ./npm_node_modules/.bin/npm install --force --no-save ${packagesList}`);
-    stdout && Logger._generic(stdout);
-    stderr && Logger._generic(stderr);
+    if (stdout) {Logger.emitLog(stdout);}
+    if (stderr) {Logger.emitError(stderr);}
 
     Logger.log('zipping...');
     await archiveDirectory('./npm_cache', newTarFolder);

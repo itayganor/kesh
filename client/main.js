@@ -4,10 +4,21 @@ const $a = document.querySelectorAll.bind(document);
 const socket = io('/');
 
 socket.on('log', data => {
+    newLog(data);
+});
+
+socket.on('log-error', data => {
+    newLog(data, true);
+});
+
+function newLog(data, isError = false) {
     const el = document.createElement('div');
     el.innerText = data.toString();
+    if (isError) {
+        el.style.color = '#78bbff';
+    }
     $('#logs').append(el);
-});
+};
 
 document.addEventListener('DOMContentLoaded', async () => {
     const tagify = new Tagify($('#packages-list'), {

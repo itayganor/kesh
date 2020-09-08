@@ -32,6 +32,10 @@ app.get('/api/download/:packages', async (req, res) => {
         return res.status(500).send(e.message);
     }
 
+    if (!zipPath) {
+        return res.status(500);
+    }
+
     res.download(zipPath, (err) => {
         if (err) {
             return Logger.error(err);
