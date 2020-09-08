@@ -27,7 +27,7 @@ async function packPackages(packages) {
     shell.rm('-rf', ['./node_modules', './npm_cache', newTarFolder]);
 
     Logger.log('downloading module...');
-    const {stdout, stderr} = shell.exec(`cross-env npm_config_cache=./npm_cache ./npm_node_modules/.bin/npm install --force --no-save ${packagesList}`);
+    const {stdout, stderr} = shell.exec(`cross-env npm_config_cache=./npm_cache ./npm_node_modules/.bin/npm install --force --no-save --loglevel=error ${packagesList}`);
     if (stdout) {Logger.emitLog(stdout);}
     if (stderr) {Logger.emitError(stderr);}
 

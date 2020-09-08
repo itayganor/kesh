@@ -15,7 +15,7 @@ function newLog(data, isError = false) {
     const el = document.createElement('div');
     el.innerText = data.toString();
     if (isError) {
-        el.style.color = '#78bbff';
+        el.style.color = '#ff8787';
     }
     $('#logs').append(el);
 };
