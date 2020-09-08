@@ -27,7 +27,10 @@ async function packPackages(packages) {
     shell.rm('-rf', ['./node_modules', './npm_cache', newTarFolder]);
 
     Logger.log('downloading module...');
-    shell.exec(`cross-env npm_config_cache=./npm_cache ./npm_node_modules/.bin/npm install --force --no-save ${packagesList}`);
+    shell.exec(`cross-env npm_config_cache=./npm_cache ./npm_node_modules/.bin/npm install --force --no-save ${packagesList}`, (code, stdout, stderr) => {
+        stdout && Logger._generic(stdout);
+        stderr && Logger._generic(stderr);
+    });
 
     Logger.log('zipping...');
     await archiveDirectory('./npm_cache', newTarFolder);
