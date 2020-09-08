@@ -50,7 +50,7 @@ app.get('/api/search', async (req, res) => {
     res.json(response.data.map(i => i.name));
 });
 
-shell.cd('./runner');
+shell.cd(path.resolve(__dirname, './runner'));
 if (!shell.test('-d', 'npm_node_modules')) {
     console.log('installing npm...');
     shell.exec('npm init -y', {silent: true});
@@ -61,7 +61,7 @@ if (!shell.test('-d', 'npm_node_modules')) {
 }
 console.log('Finished setup!');
 
-app.use(express.static(path.resolve(process.cwd(), '../../../client')));
+app.use(express.static(path.resolve(__dirname, '../../client')));
 
 const PORT = process.env.PORT || 8080;
 server.listen(PORT, () => {
