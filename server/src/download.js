@@ -3,6 +3,7 @@ const {DateTime} = require('luxon');
 
 const shell = require('./shell.js');
 const {archiveDirectory} = require('./utils.js');
+const Logger = require('./logger.js');
 
 
 /**
@@ -18,22 +19,23 @@ async function packPackages(packages) {
     }
 
     const packagesList = packages.join(' ');
-    console.log(`NEW REQUEST: ${packagesList}`);
+    Logger.log(`NEW REQUEST: ${packagesList}`);
 
     const newTarFolder = `npm_cache - ${zipName}.zip`;
 
-    console.log('cleaning directory...');
+    Logger.log('cleaning directory...');
     shell.rm('-rf', ['./node_modules', './npm_cache', newTarFolder]);
 
-    console.log('downloading module...');
+    Logger.log('downloading module...');
     shell.exec(`cross-env npm_config_cache=./npm_cache ./npm_node_modules/.bin/npm install --force --no-save ${packagesList}`);
 
-    console.log('zipping...');
+    Logger.log('zipping...');
     await archiveDirectory('./npm_cache', newTarFolder);
 
-    console.log('cleaning directory...');
+    Logger.log('cleaning directory...');
     shell.rm('-rf', ['./node_modules', './npm_cache']);
 
+    Logger.log('done!');
     return path.resolve(process.cwd(), newTarFolder);
 }
 

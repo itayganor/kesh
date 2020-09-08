@@ -5,9 +5,14 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const fs = require('fs-extra');
 const axios = require('axios');
+const http = require('http');
+const server = http.createServer(app);
+const io = require('socket.io')(server);
 
+const Logger = require('./logger.js');
 const shell = require('./shell.js');
 const {packPackages} = require('./download.js');
+require('./sockets.js')(io);
 
 
 app.use(bodyParser.json());
@@ -15,20 +20,23 @@ app.use(cors());
 
 app.get('/api/download/:packages', async (req, res) => {
     let {packages} = req.params;
+    let zipPath;
     try {
         packages = JSON.parse(packages);
+        if (packages.length === 0) {
+            throw new Error('no packages mentioned!');
+        }
+        zipPath = await packPackages(packages);
     } catch (e) {
-        console.log(packages);
+        Logger.error(packages);
         return res.status(500).send(e.message);
     }
 
-    const zipPath = await packPackages(packages);
-
     res.download(zipPath, (err) => {
         if (err) {
-            return console.error(err);
+            return Logger.error(err);
         }
-        fs.remove(zipPath, err => err && console.error(err));
+        fs.remove(zipPath, err => err && Logger.error(err));
     });
 });
 
@@ -56,6 +64,6 @@ console.log('Finished setup!');
 app.use(express.static(path.resolve(process.cwd(), '../../../client')));
 
 const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`);
 });

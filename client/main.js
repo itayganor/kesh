@@ -1,6 +1,14 @@
 const $ = document.querySelector.bind(document);
 const $a = document.querySelectorAll.bind(document);
 
+const socket = io('/');
+
+socket.on('log', data => {
+    const el = document.createElement('div');
+    el.innerText = data.toString();
+    $('#logs').append(el);
+});
+
 document.addEventListener('DOMContentLoaded', async () => {
     const tagify = new Tagify($('#packages-list'), {
         delimiters: ' ',
@@ -37,9 +45,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         const packagesValue = tagify.value;
         const packagesNames = packagesValue.map(item => item.value);
         console.log(packagesNames);
+        $('#logs').querySelectorAll(':scope > *').forEach(i => i.remove());
 
         // axios.get('/api/download/["chalk"]');
-        console.log(encodeURIComponent(JSON.stringify(packagesNames)));
         location.href = `/api/download/${encodeURIComponent(JSON.stringify(packagesNames))}`;
     });
 });

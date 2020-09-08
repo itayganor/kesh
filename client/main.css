@@ -43,3 +43,21 @@ input, textarea, button {
     max-width: 4em;
     margin: 1em auto;
 }
+
+#logs {
+    background: #212121;
+    color: #eee;
+    font-family: monospace;
+    border-radius: .5em;
+    padding: .5em;
+    line-height: 1em;
+    margin: 1em;
+}
+
+#logs > * + * {
+    margin-top: .5em;
+}
+
+#logs:empty {
+    display: none;
+}
