@@ -16,5 +16,8 @@
     "luxon": "^1.25.0",
     "shelljs": "^0.8.4",
     "socket.io": "^2.3.0"
+  },
+  "devDependencies": {
+    "@types/shelljs": "^0.8.8"
   }
 }

@@ -1,7 +1,7 @@
 const $ = document.querySelector.bind(document);
 const $a = document.querySelectorAll.bind(document);
 
-const socket = io('/');
+const socket = io('/', {transports: ['websocket']});
 
 socket.on('log', data => {
     newLog(data);

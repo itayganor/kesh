@@ -11,7 +11,7 @@ const io = require('socket.io')(server);
 
 const Logger = require('./logger.js');
 const shell = require('./shell.js');
-const {packPackages} = require('./download.js');
+const {packPackages, directoryCleanup} = require('./download.js');
 require('./sockets.js')(io);
 
 
@@ -50,8 +50,12 @@ app.get('/api/search', async (req, res) => {
         return res.json([]);
     }
 
-    const response = await axios.get('https://www.npmjs.com/search/suggestions?q=' + q);
-    res.json(response.data.map(i => i.name));
+    try {
+        const response = await axios.get('https://www.npmjs.com/search/suggestions?q=' + q);
+        res.json(response.data.map(i => i.name));
+    } catch (e) {
+        res.status(500).send(e.message);
+    }
 });
 
 shell.cd(path.resolve(__dirname, './runner'));
@@ -63,6 +67,7 @@ if (!shell.test('-d', 'npm_node_modules')) {
 } else {
     console.log('npm already exists, skipping installation');
 }
+directoryCleanup();
 console.log('Finished setup!');
 
 app.use(express.static(path.resolve(__dirname, '../../client')));
